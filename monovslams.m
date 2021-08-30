@@ -1,10 +1,15 @@
 obj = VideoReader('test.mp4');
-for frame = 1 : obj.NumFrames
-	% Extract the frame from the movie structure.
-	thisFrame = read(obj, frame);
-	outputBaseFileName = sprintf('Frame %4.4d.png', frame);
-	outputFullFileName = fullfile('img/', outputBaseFileName);
-	imwrite(thisFrame, outputFullFileName, 'png');
+dataFolder      = fullfile(tempdir, 'img', filesep); 
+folderExists    = exist(dataFolder, 'dir');
+if ~folderExists
+	mkdir(dataFolder);
+	for frame = 1 : obj.NumFrames
+		% Extract the frame from the movie structure.
+		thisFrame = read(obj, frame);
+		outputBaseFileName = sprintf('Frame %4.4d.png', frame);
+		outputFullFileName = fullfile(dataFolder, outputBaseFileName);
+		imwrite(thisFrame, outputFullFileName, 'png');
+	end
 end
 %while hasFrame(obj)
 %    frame = readFrame(obj);
